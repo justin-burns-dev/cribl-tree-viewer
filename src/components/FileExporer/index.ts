@@ -50,6 +50,11 @@ export class FileExplorer extends HTMLElement {
       this._folderTreeView.treeData = this._treeData;
       this._fileListView.treeData = this._treeData;
     }
+
+    this._folderTreeView.addEventListener('node-selected', (event) => {
+      const { nodeUrl } = (event as CustomEvent).detail;
+      console.log('Node selected:', nodeUrl);
+    });
   }
 
   static styles = `
