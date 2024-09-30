@@ -55,8 +55,15 @@ export const generateNodeUrl = (node: ITreeNode, parentPath: string = ''): strin
 export const findNodeByUrl = (tree: ITreeNode, url: string): ITreeNode | null => {
   let currentNode: ITreeNode | null = tree;
   const [rootNode, ... pathParts] = url.split('/');
+  
+  if (url === '') return tree;
+
   if (rootNode !== tree.name) {
     return null;
+  }
+
+  if (pathParts.length === 0) {
+    return tree;
   }
 
   for (const part of pathParts) {

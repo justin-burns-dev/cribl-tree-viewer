@@ -55,6 +55,16 @@ export class FileExplorer extends HTMLElement {
       const { nodeUrl } = (event as CustomEvent).detail;
       console.log('Node selected:', nodeUrl);
     });
+
+    this._fileListView.addEventListener('node-selected', (event) => {
+      const { nodeUrl } = (event as CustomEvent).detail;
+      console.log('Node selected:', nodeUrl);
+    });
+
+    this._fileListView.addEventListener('path-changed', (event) => {
+      const { nodeUrl } = (event as CustomEvent).detail;
+      console.log('Path changed:', nodeUrl);
+    });
   }
 
   static styles = `
