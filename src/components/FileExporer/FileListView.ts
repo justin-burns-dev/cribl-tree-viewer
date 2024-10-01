@@ -151,6 +151,7 @@ export class FileListView extends HTMLElement {
 
     .file-item {
       cursor: pointer;
+      user-select: none;
     }
 
     .file-item:hover {

@@ -6,8 +6,8 @@ export class FolderTreeView extends HTMLElement {
   static tagName = "folder-tree-view";
 
   private _treeData?: ITreeNode;
-  private expandedNodes = new Map<string, boolean>();
   private _currentDir: string = "";
+  private expandedNodes = new Map<string, boolean>();
 
   constructor() {
     super();
@@ -61,7 +61,6 @@ export class FolderTreeView extends HTMLElement {
 
   private renderTree(
     node: ITreeNode,
-    indent: number = 0,
     parentPath: string = ""
   ): string {
     const nodeUrl = generateNodeUrl(node, parentPath);
@@ -77,15 +76,15 @@ export class FolderTreeView extends HTMLElement {
 
     return `
       <div class="tree-node">
-        <div class="filename-wrapper">
+        <div class="filename-wrapper ${!hasChildFolders ? 'indent' : ''}">
           ${
             hasChildFolders
               ? `
               <span class="toggle-btn"  data-url="${nodeUrl}">
-                ${isExpanded ? "▼ " : "▶ "}
+                ${ hasChildFolders ? (isExpanded ? "▼ " : "▶ ") : ""}
               </span>
-            `
-              : ""
+              `
+              : ''
           }
           <img class="folder-icon" src="${getFolderIcon()}"/><span class="filename  ${isSelected ? "selected" : ""}"  data-url="${nodeUrl}">${node.name}</span>
         </div>
@@ -93,7 +92,7 @@ export class FolderTreeView extends HTMLElement {
           node.children
             ? `<div class='children ${ isExpanded ? 'expanded' : 'collapsed' }'>
                 ${node.children
-                  .map((child) => this.renderTree(child, indent + 20, nodeUrl))
+                  .map((child) => this.renderTree(child, nodeUrl))
                   .join("")}
                 </div>`
             : ""
@@ -155,10 +154,12 @@ export class FolderTreeView extends HTMLElement {
       font-family: sans-serif;
       padding: 10px;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .tree-node {
       width: 100%;
+      box-sizing: border-box;
     }
 
     .tree-node .filename {
@@ -193,6 +194,11 @@ export class FolderTreeView extends HTMLElement {
     .tree-node .toggle-btn {
       cursor: pointer;
       user-select: none;
+      width: 20px;
+    }
+
+    .tree-node .indent {
+      padding-left: 20px;
     }
 
     .folder-icon {
