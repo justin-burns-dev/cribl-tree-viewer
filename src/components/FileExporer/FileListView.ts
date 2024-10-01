@@ -1,4 +1,5 @@
 import { ITreeNode } from "../../types/tree";
+import { formatFileSize } from "../../utils/file";
 import { getIconForNode } from "../../utils/icon";
 import { findNodeByUrl, generateNodeUrl } from "../../utils/tree";
 
@@ -73,7 +74,7 @@ export class FileListView extends HTMLElement {
             <td class="col-icon"> <img class="file-icon" src="${getIconForNode(child)}"/> </td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${child.modified.toLocaleDateString()}</td>
-            <td class="col-size">${child.size} bytes</td>
+            <td class="col-size">${formatFileSize(child.size)}</td>
           </tr>
         `;
       }).join('') ?? '';

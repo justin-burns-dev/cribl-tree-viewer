@@ -86,7 +86,10 @@ export class FolderTreeView extends HTMLElement {
               `
               : ''
           }
-          <img class="folder-icon" src="${getFolderIcon()}"/><span class="filename  ${isSelected ? "selected" : ""}"  data-url="${nodeUrl}">${node.name}</span>
+          <img class="folder-icon" src="${getFolderIcon()}"/>
+          <span class="filename  ${isSelected ? "selected" : ""}"  data-url="${nodeUrl}">
+            ${node.name}
+          </span>
         </div>
         ${
           node.children
@@ -106,11 +109,13 @@ export class FolderTreeView extends HTMLElement {
       const target = event.target as HTMLElement;
       if (target.classList.contains("toggle-btn")) {
         const nodeUrl = target.dataset.url;
+        
         if (nodeUrl) {
           this.handleNodeExpand(nodeUrl);
         }
       } else if (target.classList.contains("filename")) {
         const nodeUrl = target.dataset.url;
+
         if (nodeUrl) {
           this.handleNodeExpand(nodeUrl);
           this.handleNodeClick(nodeUrl);
