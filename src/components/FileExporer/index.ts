@@ -38,7 +38,6 @@ export class FileExplorer extends HTMLElement {
         <style>
           ${FileExplorer.styles}
         </style>
-        File Explorer
         <div class="file-explorer">
           <folder-tree-view></folder-tree-view>
           <file-list-view></file-list-view>
@@ -75,12 +74,12 @@ export class FileExplorer extends HTMLElement {
   static styles = `
    .file-explorer {
       display: flex;
-      margin: 10px;
-      border: 1px solid gray;
+      border: 2px solid #e9e9e9;
+      height: 100%;
     }
 
     folder-tree-view {
-      border-right: 1px solid gray;
+      border-right: 2px solid #e9e9e9;
       flex: 0.3;
       padding: 5px;
     }

@@ -73,7 +73,7 @@ export class FileListView extends HTMLElement {
         const isFolder = child.type === 'folder';
         return `
           <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
-            <td class="col-icon"> <img class="file-icon" src="${getIconForNode(child)}"/> </td>
+            <td class="col-icon"> <div class="file-icon"> <img src="${getIconForNode(child)}"/> </div< </td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${child.modified.toLocaleDateString()}</td>
             <td class="col-size">${!isFolder ? formatFileSize(child.size) : ''}</td>
@@ -124,7 +124,9 @@ export class FileListView extends HTMLElement {
 
     .col-icon {
       width: 20px;
+      padding-left: 30px;
       text-align: center;
+      vertical-align: baseline;
     }
 
     .col-name {
@@ -140,10 +142,11 @@ export class FileListView extends HTMLElement {
     .col-size {
       width: 100px;
       text-align: right;
+      padding-right: 10px;
     }
 
     th, td {
-      padding: 5px;
+      padding: 8px;
       box-sizing: border-box;
       border-collapse: collapse;
     }
@@ -158,14 +161,18 @@ export class FileListView extends HTMLElement {
     }
 
     .file-item:hover {
-      background-color: #f0f0f0;
+      background-color: #eef1f7;
     }
 
     .file-item.selected {
-      background-color: #dad9d9;
+      background-color: #eeeeee;
     }
 
     .file-icon {
+      display: flex;
+    }
+
+    .file-icon img {
       width: 20px;
       height: 20px;
       margin-right: 5px;

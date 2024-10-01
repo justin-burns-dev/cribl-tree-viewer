@@ -182,11 +182,11 @@ export class FolderTreeView extends HTMLElement {
     }
 
     .tree-node .filename.selected {
-      background-color: #dad9d9;
+      background-color: #eeeeee;
     }
 
     .tree-node .filename:hover:not(.selected) {
-      background-color: #f0f0f0;
+      background-color: #eef1f7;
     }
 
     .tree-node .children {
