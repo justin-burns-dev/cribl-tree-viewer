@@ -67,14 +67,16 @@ export class FileListView extends HTMLElement {
 
   private renderTableRows(): string {
       const currentNode = findNodeByUrl(this._treeData!, this._currentDir);
+
       return currentNode?.children?.map(child => {
         const url = generateNodeUrl(child, this._currentDir);
+        const isFolder = child.type === 'folder';
         return `
           <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
             <td class="col-icon"> <img class="file-icon" src="${getIconForNode(child)}"/> </td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${child.modified.toLocaleDateString()}</td>
-            <td class="col-size">${formatFileSize(child.size)}</td>
+            <td class="col-size">${!isFolder ? formatFileSize(child.size) : ''}</td>
           </tr>
         `;
       }).join('') ?? '';
