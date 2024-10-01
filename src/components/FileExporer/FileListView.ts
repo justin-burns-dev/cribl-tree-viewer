@@ -75,7 +75,7 @@ export class FileListView extends HTMLElement {
           <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
             <td class="col-icon"> <div class="file-icon"> <img src="${getIconForNode(child)}"/> </div< </td>
             <td class="col-name">${child.name}</td>
-            <td class="col-date">${child.modified.toLocaleDateString()}</td>
+            <td class="col-date">${(typeof child.modified === 'string' ? new Date(child.modified) : child.modified).toLocaleDateString()}</td>
             <td class="col-size">${!isFolder ? formatFileSize(child.size) : ''}</td>
           </tr>
         `;

@@ -2,24 +2,28 @@
   "name": "cribl-tree-viewer",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run dev\"",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "server": "nodemon ./server/index.js"
   },
   "devDependencies": {
     "jest-environment-jsdom": "^29.7.0",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.13",
+    "@types/web": "^0.0.167"
   },
   "dependencies": {
-    "@jest/globals": "^29.7.0",
-    "@types/jest": "^29.5.13",
-    "@types/web": "^0.0.167",
-    "jest": "^29.7.0",
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
     "jsdom": "^25.0.1",
+    "nodemon": "^3.1.7",
     "ts-jest": "^29.2.5",
     "vitest": "^2.1.1"
   }
