@@ -25,11 +25,22 @@ export class FolderTreeView extends HTMLElement {
 
   set currentDir(value: string) {
     this._currentDir = value;
+    this.expandPath(value);
     this.render();
   }
 
   get currentDir() {
     return this._currentDir;
+  }
+
+  private expandPath(path: string) {
+    const parts = path.split("/");
+    let currentPath = "";
+    parts.forEach((part) => {
+      currentPath += part;
+      this.expandedNodes.set(currentPath, true);
+      currentPath += "/";
+    });
   }
 
   private render() {
