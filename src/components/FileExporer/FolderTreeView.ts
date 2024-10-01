@@ -47,13 +47,13 @@ export class FolderTreeView extends HTMLElement {
   }
 
   private render() {
-    if (this.shadowRoot && this._treeData) {
+    if (this.shadowRoot) {
       this.shadowRoot.innerHTML = `
         <style>
           ${FolderTreeView.styles}
         </style>
         <div class="folder-tree-view">
-          ${this.renderTree(this._treeData)}
+          ${this._treeData ? this.renderTree(this._treeData) : ''}
         </div>
       `;
     }
@@ -107,6 +107,7 @@ export class FolderTreeView extends HTMLElement {
   private attachEventListeners() {
     this.shadowRoot?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
+      console.log("I get")
       if (target.classList.contains("toggle-btn")) {
         const nodeUrl = target.dataset.url;
         

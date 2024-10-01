@@ -91,8 +91,8 @@ export class FileListView extends HTMLElement {
         if (url) {
           this._selectedFile = url;
           this.dispatchEvent(new CustomEvent('node-selected', { detail: { nodeUrl: url } }));
-          
-          if (singleClicked) {
+
+          if (singleClicked) { //double click
             const node = findNodeByUrl(this._treeData!, url);
             if (node?.type === 'folder') {
               this.currentDir = url;
@@ -102,9 +102,9 @@ export class FileListView extends HTMLElement {
           
           this.render();
 
-          singleClicked = setTimeout(() => {
+          singleClicked = window.setTimeout(() => {
             singleClicked = null;
-          }, 200); 
+          }, 300); 
         }
       }
     });
