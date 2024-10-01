@@ -107,7 +107,6 @@ export class FolderTreeView extends HTMLElement {
   private attachEventListeners() {
     this.shadowRoot?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
-      console.log("I get")
       if (target.classList.contains("toggle-btn")) {
         const nodeUrl = target.dataset.url;
         
