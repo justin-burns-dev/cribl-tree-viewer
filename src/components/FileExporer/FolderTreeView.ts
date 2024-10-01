@@ -111,20 +111,20 @@ export class FolderTreeView extends HTMLElement {
         const nodeUrl = target.dataset.url;
         
         if (nodeUrl) {
-          this.handleNodeExpand(nodeUrl);
+          this.handleNodeToggle(nodeUrl);
         }
       } else if (target.classList.contains("filename")) {
         const nodeUrl = target.dataset.url;
 
         if (nodeUrl) {
-          this.handleNodeExpand(nodeUrl);
+          this.expandPath(nodeUrl);
           this.handleNodeClick(nodeUrl);
         }
       }
     });
   }
 
-  private handleNodeExpand(nodeUrl: string) {
+  private handleNodeToggle(nodeUrl: string) {
     const node = findNodeByUrl(this._treeData!, nodeUrl);
     if (node && node.type === "folder") {
       const isExpanded = this.expandedNodes.get(nodeUrl) || false;
