@@ -13,6 +13,9 @@ export class FileExplorer extends HTMLElement {
   private _folderTreeView: FolderTreeView | null;
   private _fileListView: FileListView | null;
 
+  public currentDir: string = '';
+  public selectedUrl: string = '';
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -53,17 +56,19 @@ export class FileExplorer extends HTMLElement {
 
     this._folderTreeView.addEventListener('node-selected', (event) => {
       const { nodeUrl } = (event as CustomEvent).detail;
-      console.log('Node selected:', nodeUrl);
+      this.currentDir = nodeUrl;
+      this._fileListView!.currentDir = nodeUrl;
     });
 
     this._fileListView.addEventListener('node-selected', (event) => {
       const { nodeUrl } = (event as CustomEvent).detail;
-      console.log('Node selected:', nodeUrl);
+      this.selectedUrl = nodeUrl;
     });
 
     this._fileListView.addEventListener('path-changed', (event) => {
       const { nodeUrl } = (event as CustomEvent).detail;
-      console.log('Path changed:', nodeUrl);
+      this.currentDir = nodeUrl;
+      this._folderTreeView!.currentDir = nodeUrl;
     });
   }
 

@@ -6,7 +6,7 @@ export class FolderTreeView extends HTMLElement {
 
   private _treeData?: ITreeNode;
   private expandedNodes = new Map<string, boolean>();
-  private selectedPath: string = "";
+  private _currentDir: string = "";
 
   constructor() {
     super();
@@ -21,6 +21,15 @@ export class FolderTreeView extends HTMLElement {
   set treeData(value: ITreeNode) {
     this._treeData = value;
     this.render();
+  }
+
+  set currentDir(value: string) {
+    this._currentDir = value;
+    this.render();
+  }
+
+  get currentDir() {
+    return this._currentDir;
   }
 
   private render() {
@@ -44,7 +53,7 @@ export class FolderTreeView extends HTMLElement {
     const nodeUrl = generateNodeUrl(node, parentPath);
     const isFolder = node.type === "folder";
     const isExpanded = this.expandedNodes.get(nodeUrl) || false;
-    const isSelected = this.selectedPath === nodeUrl;
+    const isSelected = this._currentDir === nodeUrl;
 
     const hasChildFolders = node.children?.some(
       (child) => child.type === "folder"
@@ -111,7 +120,7 @@ export class FolderTreeView extends HTMLElement {
   private handleNodeClick(nodeUrl: string) {
     const node = findNodeByUrl(this._treeData!, nodeUrl);
     if (node) {
-      this.selectedPath = nodeUrl;
+      this._currentDir = nodeUrl;
 
       this.render();
       this.dispatchNodeSelectedEvent(nodeUrl);

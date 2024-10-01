@@ -5,8 +5,8 @@ export class FileListView extends HTMLElement {
   static tagName = 'file-list-view';
 
   private _treeData?: ITreeNode;
-  private _currentPath: string = '';
-  private selectedPath: string = '';
+  private _selectedFile: string = '';
+  private _currentDir: string = '';
 
   constructor() {
     super();
@@ -20,8 +20,22 @@ export class FileListView extends HTMLElement {
 
   set treeData(value: ITreeNode) {
     this._treeData = value;
-    this._currentPath = this._treeData?.name;
+    this._currentDir = this._treeData?.name;
     this.render();
+  }
+
+  set currentDir(value: string) {
+    this._currentDir = value;
+    this._selectedFile = value;
+    this.render();
+  }
+
+  get currentDir() {
+    return this._currentDir;
+  }
+
+  get selectedFile() {
+    return this._selectedFile;
   }
 
   private render() {
@@ -48,12 +62,13 @@ export class FileListView extends HTMLElement {
       `;
     }
   }
+
   private renderTableRows(): string {
-      const currentNode = findNodeByUrl(this._treeData!, this._currentPath);
+      const currentNode = findNodeByUrl(this._treeData!, this._currentDir);
       return currentNode?.children?.map(child => {
-        const url = generateNodeUrl(child, this._currentPath);
+        const url = generateNodeUrl(child, this._currentDir);
         return `
-          <tr class="file-item ${this.selectedPath === url ? 'selected' : ''}" data-url="${url}">
+          <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
             <td></td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${child.modified.toLocaleDateString()}</td>
@@ -70,13 +85,13 @@ export class FileListView extends HTMLElement {
       if (row) {
         const url = row.getAttribute('data-url');
         if (url) {
-          this.selectedPath = url;
+          this._selectedFile = url;
           this.dispatchEvent(new CustomEvent('node-selected', { detail: { nodeUrl: url } }));
           
           if (singleClicked) {
             const node = findNodeByUrl(this._treeData!, url);
             if (node?.type === 'folder') {
-              this._currentPath = url;
+              this.currentDir = url;
               this.dispatchEvent(new CustomEvent('path-changed', { detail: { nodeUrl: url } }));
             }
           }          
