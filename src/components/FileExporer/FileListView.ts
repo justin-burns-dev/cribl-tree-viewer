@@ -1,4 +1,5 @@
 import { ITreeNode } from "../../types/tree";
+import { getIconForNode } from "../../utils/icon";
 import { findNodeByUrl, generateNodeUrl } from "../../utils/tree";
 
 export class FileListView extends HTMLElement {
@@ -48,7 +49,7 @@ export class FileListView extends HTMLElement {
           <table>
             <thead>
               <tr>
-                <th></th>
+                <th class="col-icon"> &nbsp; </th>
                 <th class="col-name">Name</th>
                 <th class="col-date">Date Modified</th>
                 <th class="col-size">File Size</th>
@@ -69,7 +70,7 @@ export class FileListView extends HTMLElement {
         const url = generateNodeUrl(child, this._currentDir);
         return `
           <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
-            <td></td>
+            <td class="col-icon"> <img class="file-icon" src="${getIconForNode(child)}"/> </td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${child.modified.toLocaleDateString()}</td>
             <td class="col-size">${child.size} bytes</td>
@@ -118,6 +119,11 @@ export class FileListView extends HTMLElement {
       border-spacing: 0; 
     }
 
+    .col-icon {
+      width: 20px;
+      text-align: center;
+    }
+
     .col-name {
       width: auto;
       text-align: left;
@@ -153,6 +159,12 @@ export class FileListView extends HTMLElement {
 
     .file-item.selected {
       background-color: #dad9d9;
+    }
+
+    .file-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
     }
   `
 }

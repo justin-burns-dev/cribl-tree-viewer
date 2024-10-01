@@ -1,4 +1,5 @@
 import { ITreeNode } from "../../types/tree";
+import { getFolderIcon } from "../../utils/icon";
 import { findNodeByUrl, generateNodeUrl } from "../../utils/tree";
 
 export class FolderTreeView extends HTMLElement {
@@ -86,9 +87,7 @@ export class FolderTreeView extends HTMLElement {
             `
               : ""
           }
-          <span class="filename  ${
-            isSelected ? "selected" : ""
-          }"  data-url="${nodeUrl}">${node.name}</span>
+          <img class="folder-icon" src="${getFolderIcon()}"/><span class="filename  ${isSelected ? "selected" : ""}"  data-url="${nodeUrl}">${node.name}</span>
         </div>
         ${
           node.children
@@ -194,6 +193,12 @@ export class FolderTreeView extends HTMLElement {
     .tree-node .toggle-btn {
       cursor: pointer;
       user-select: none;
+    }
+
+    .folder-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
     }
   `;
 }

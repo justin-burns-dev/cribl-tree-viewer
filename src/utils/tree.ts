@@ -20,7 +20,7 @@ export const getMockFileSystemData = (): ITreeNode => ({
         },
         {
           type: 'file',
-          name: 'Description1.rtf',
+          name: 'Description1.pdf',
           modified: new Date('7/6/2020'),
           size: 1024
         },
