@@ -20,6 +20,8 @@ export class FolderTreeView extends HTMLElement {
 
   set treeData(value: ITreeNode) {
     this._treeData = value;
+    this.currentDir = this._treeData.name;
+    this.expandedNodes.clear();
     this.render();
   }
 
