@@ -60,6 +60,9 @@ export class FileListView extends HTMLElement {
               ${this._treeData ? this.renderTableRows() : ''}
             </tbody>
           </table>
+          <div class="status-bar">
+              ${this.selectedFile || '&nbsp;'}
+          </div>
         </div>
       `;
     }
@@ -184,6 +187,15 @@ export class FileListView extends HTMLElement {
       width: 20px;
       height: 20px;
       margin-right: 5px;
+    }
+
+    .status-bar {
+      position: absolute;
+      padding: 5px;
+      bottom: 8px;
+      border-top: 1px solid #ccc;
+      background-color: white;
+      width: 100%;
     }
   `
 }
