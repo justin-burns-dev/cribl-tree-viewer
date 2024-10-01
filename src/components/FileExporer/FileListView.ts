@@ -112,9 +112,10 @@ export class FileListView extends HTMLElement {
 
   static styles = `
    .file-list-view {
-      display: flex;
       font-family: sans-serif;
       width: 100%;
+      height: 100%;
+      overflow: auto;
     }
 
     table {
@@ -149,6 +150,13 @@ export class FileListView extends HTMLElement {
       padding: 8px;
       box-sizing: border-box;
       border-collapse: collapse;
+    }
+
+    thead {
+      background-color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     thead th{

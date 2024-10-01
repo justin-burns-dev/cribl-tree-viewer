@@ -155,6 +155,7 @@ export class FolderTreeView extends HTMLElement {
   static styles = `
     .folder-tree-view {
       width: 100%;
+      height: 100%;
       box-sizing: border-box;
       display: flex;
       font-family: sans-serif;
