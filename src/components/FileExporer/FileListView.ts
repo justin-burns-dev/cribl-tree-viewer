@@ -60,9 +60,9 @@ export class FileListView extends HTMLElement {
               ${this._treeData ? this.renderTableRows() : ''}
             </tbody>
           </table>
-          <div class="status-bar">
-              ${this.selectedFile || '&nbsp;'}
-          </div>
+        </div>
+        <div class="status-bar">
+            ${this.selectedFile || '&nbsp;'}
         </div>
       `;
     }
@@ -75,7 +75,7 @@ export class FileListView extends HTMLElement {
         const url = generateNodeUrl(child, this._currentDir);
         const isFolder = child.type === 'folder';
         return `
-          <tr class="file-item ${this._selectedFile === url ? 'selected' : ''}" data-url="${url}">
+          <tr class="file-item" data-url="${url}">
             <td class="col-icon"> <div class="file-icon"> <img src="${getIconForNode(child)}"/> </div< </td>
             <td class="col-name">${child.name}</td>
             <td class="col-date">${(typeof child.modified === 'string' ? new Date(child.modified) : child.modified).toLocaleDateString()}</td>
@@ -85,6 +85,33 @@ export class FileListView extends HTMLElement {
       }).join('') ?? '';
   }
 
+  private selectFile(url: string) {
+    const originalNode = this.shadowRoot?.querySelector(`.file-item[data-url="${this._selectedFile}"]`);
+    if (originalNode) {
+      originalNode.classList.remove('selected');
+    }
+
+    this._selectedFile = url;
+    this.dispatchEvent(new CustomEvent('node-selected', { detail: { nodeUrl: url } }));
+
+    const selectedNode = this.shadowRoot?.querySelector(`.file-item[data-url="${url}"]`);
+
+    if (selectedNode) {
+      selectedNode.classList.add('selected');
+    }
+
+    const statusBar = this.shadowRoot?.querySelector('.status-bar');
+    if (statusBar) {
+      statusBar.innerHTML = url;
+    }
+  }
+
+  private navigateToPath(url: string) {
+    this._currentDir = url;
+    this.dispatchEvent(new CustomEvent('path-changed', { detail: { nodeUrl: url } }));
+    this.render();
+  }
+
   private attachEventListeners() {   
     let singleClicked: number | null = null;
     this.shadowRoot?.addEventListener('click', (event) => {
@@ -92,18 +119,14 @@ export class FileListView extends HTMLElement {
       if (row) {
         const url = row.getAttribute('data-url');
         if (url) {
-          this._selectedFile = url;
-          this.dispatchEvent(new CustomEvent('node-selected', { detail: { nodeUrl: url } }));
+          this.selectFile(url);
 
           if (singleClicked) { //double click
             const node = findNodeByUrl(this._treeData!, url);
             if (node?.type === 'folder') {
-              this.currentDir = url;
-              this.dispatchEvent(new CustomEvent('path-changed', { detail: { nodeUrl: url } }));
+              this.navigateToPath(url);
             }
           }          
-          
-          this.render();
 
           singleClicked = window.setTimeout(() => {
             singleClicked = null;
@@ -119,6 +142,7 @@ export class FileListView extends HTMLElement {
       width: 100%;
       height: 100%;
       overflow: auto;
+      position: relative;
     }
 
     table {
@@ -189,13 +213,18 @@ export class FileListView extends HTMLElement {
       margin-right: 5px;
     }
 
+    :host {
+      display: flex;
+      flex-direction: column;
+
+    }
+
     .status-bar {
-      position: absolute;
       padding: 5px;
-      bottom: 8px;
       border-top: 1px solid #ccc;
       background-color: white;
       width: 100%;
+      box-sizing: border-box;
     }
   `
 }
